@@ -2229,7 +2229,17 @@ initTrojanGoConfig() {
     },
     "router": {
         "enabled": false
-    }
+    },
+    "mux": {
+        "enabled": true,
+        "concurrency": 8,
+        "idle_timeout": 60
+    },
+	"tcp": {
+		"no_delay": true,
+		"keep_alive": true,
+		"prefer_ipv4": false
+	}
 }
 EOF
 }
