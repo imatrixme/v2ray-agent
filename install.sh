@@ -2658,10 +2658,11 @@ unInstall() {
 	echoContent green " ---> 删除Trojan-Go开机自启完成"
 	rm -rf /tmp/v2ray-agent-tls/*
 	if [[ -d "/etc/v2ray-agent/tls" ]] && [[ -n $(find /etc/v2ray-agent/tls/ -name "*.key") ]] && [[ -n $(find /etc/v2ray-agent/tls/ -name "*.crt") ]]; then
-		mv /etc/v2ray-agent/tls /tmp/v2ray-agent-tls
-		if [[ -n $(find /tmp/v2ray-agent-tls -name '*.key') ]]; then
-			echoContent yellow " ---> 备份证书成功，请注意留存。[/tmp/v2ray-agent-tls]"
-		fi
+		# mv /etc/v2ray-agent/tls /tmp/v2ray-agent-tls
+		# if [[ -n $(find /tmp/v2ray-agent-tls -name '*.key') ]]; then
+		# 	echoContent yellow " ---> 备份证书成功，请注意留存。[/tmp/v2ray-agent-tls]"
+		# fi
+		echoContent yellow " ---> 证书还在，请注意留存。[/etc/v2ray-agent/tls]"
 	fi
 
 	rm -rf /etc/v2ray-agent
