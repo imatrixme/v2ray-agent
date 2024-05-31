@@ -509,7 +509,8 @@ installTools() {
 
 	if [[ ! -d "$HOME/.acme.sh" ]] || [[ -d "$HOME/.acme.sh" && -z $(find "$HOME/.acme.sh/acme.sh") ]]; then
 		echoContent green " ---> 安装acme.sh"
-		curl -s https://get.acme.sh | sh -s email=my@example.com >/etc/v2ray-agent/tls/acme.log 2>&1
+		curl -s https://get.acme.sh | sh -s email=sslmatrix@gmail.com >/etc/v2ray-agent/tls/acme.log 2>&1
+		sudo "$HOME/.acme.sh/acme.sh" --set-default-ca --server letsencrypt
 		if [[ ! -d "$HOME/.acme.sh" ]] || [[ -z $(find "$HOME/.acme.sh/acme.sh") ]]; then
 			echoContent red "  acme安装失败--->"
 			tail -n 100 /etc/v2ray-agent/tls/acme.log
@@ -596,13 +597,15 @@ installWarp(){
         echoContent red " ---> 安装WARP失败"
         exit 0;
 	fi
-	warp-cli --accept-tos register
-	warp-cli --accept-tos set-mode proxy
-	warp-cli --accept-tos set-proxy-port 31303
+	warp-cli --accept-tos registration new
+	warp-cli --accept-tos registration license 1wl27C0A-05sBY1f7-jT3f20Y8
+	warp-cli --accept-tos mode proxy
+	warp-cli --accept-tos proxy port 40000
+	warp-cli --accept-tos dns families off
 	warp-cli --accept-tos connect
 #	if [[]];then
 #	fi
-    # todo curl --socks5 127.0.0.1:31303 https://www.cloudflare.com/cdn-cgi/trace
+    # todo curl --socks5 127.0.0.1:40000 https://www.cloudflare.com/cdn-cgi/trace
 	# systemctl daemon-reload
 	# systemctl enable cloudflare-warp
 }
@@ -1008,7 +1011,8 @@ installXray() {
 
 	if [[ "${coreInstallType}" != "1" ]]; then
 
-		version=$(curl -s https://api.github.com/repos/XTLS/Xray-core/releases | jq -r .[].tag_name|head -1)
+		# version=$(curl -s https://api.github.com/repos/XTLS/Xray-core/releases | jq -r .[].tag_name|head -1)
+		version="v1.7.5"
 
 		echoContent green " ---> Xray-core版本:${version}"
 		if wget --help | grep -q show-progress; then
@@ -1125,7 +1129,8 @@ xrayVersionManageMenu() {
 		curl -s https://api.github.com/repos/XTLS/Xray-core/releases | jq -r .[].tag_name| head -2 | awk '{print ""NR""":"$0}'
 		echoContent skyBlue "--------------------------------------------------------------"
 		read -r -p "请输入要回退的版本：" selectXrayVersionType
-		version=$(curl -s https://api.github.com/repos/XTLS/Xray-core/releases | jq -r .[].tag_name| head -2 | awk '{print ""NR""":"$0}' | grep "${selectXrayVersionType}:" | awk -F "[:]" '{print $2}')
+		# version=$(curl -s https://api.github.com/repos/XTLS/Xray-core/releases | jq -r .[].tag_name| head -2 | awk '{print ""NR""":"$0}' | grep "${selectXrayVersionType}:" | awk -F "[:]" '{print $2}')
+		version="v1.7.5"
 		if [[ -n "${version}" ]]; then
 			updateXray "${version}"
 		else
@@ -1223,11 +1228,13 @@ updateV2Ray() {
 updateXray() {
 	readInstallType
 	if [[ -z "${coreInstallType}" ]]; then
-		if [[ -n "$1" ]]; then
-			version=$1
-		else
-			version=$(curl -s https://api.github.com/repos/XTLS/Xray-core/releases | jq -r .[0].tag_name)
-		fi
+		# if [[ -n "$1" ]]; then
+		# 	version=$1
+		# else
+		# 	version=$(curl -s https://api.github.com/repos/XTLS/Xray-core/releases | jq -r .[0].tag_name)
+		# fi
+
+		version = "v1.7.5"
 
 		echoContent green " ---> Xray-core版本:${version}"
 
@@ -1245,12 +1252,12 @@ updateXray() {
 	else
 		echoContent green " ---> 当前Xray-core版本:$(/etc/v2ray-agent/xray/xray --version | awk '{print $2}' | head -1)"
 
-		if [[ -n "$1" ]]; then
-			version=$1
-		else
-			version=$(curl -s https://api.github.com/repos/XTLS/Xray-core/releases | jq -r .[0].tag_name)
-		fi
-
+		# if [[ -n "$1" ]]; then
+		# 	version=$1
+		# else
+		# 	version=$(curl -s https://api.github.com/repos/XTLS/Xray-core/releases | jq -r .[0].tag_name)
+		# fi
+		version="v1.7.5"
 		if [[ -n "$1" ]]; then
 			read -r -p "回退版本为${version}，是否继续？[y/n]:" rollbackXrayStatus
 			if [[ "${rollbackXrayStatus}" == "y" ]]; then
@@ -3247,7 +3254,7 @@ EOF
 		fi
 		unInstallOutbounds warp-socks-out
 
-		local outbounds=$(jq -r '.outbounds += [{"protocol":"socks","settings":{"servers":[{"address":"127.0.0.1","port":31303}]},"tag":"warp-socks-out"}]' ${configPath}10_ipv4_outbounds.json)
+		local outbounds=$(jq -r '.outbounds += [{"protocol":"socks","settings":{"servers":[{"address":"127.0.0.1","port":40000}]},"tag":"warp-socks-out"}]' ${configPath}10_ipv4_outbounds.json)
 
 		echo "${outbounds}"|jq . >${configPath}10_ipv4_outbounds.json
 
