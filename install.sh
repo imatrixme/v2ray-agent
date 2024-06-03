@@ -754,6 +754,7 @@ checkIP() {
 }
 # 安装TLS
 installTLS() {
+	sudo "$HOME/.acme.sh/acme.sh" --set-default-ca --server letsencrypt
 	echoContent skyBlue "\n进度  $1/${totalProgress} : 申请TLS证书\n"
 	local tlsDomain=${domain}
 	# 安装tls
