@@ -1041,12 +1041,12 @@ installTrojanGo() {
 
 	if ! ls /etc/v2ray-agent/trojan/ | grep -q trojan-go; then
 
-		version=$(curl -s https://api.github.com/repos/p4gefau1t/trojan-go/releases | jq -r .[0].tag_name)
+		version=$(curl -s https://api.github.com/repos/gfw-report/trojan-go/releases | jq -r .[0].tag_name)
 		echoContent green " ---> Trojan-Go版本:${version}"
 		if wget --help | grep -q show-progress; then
-			wget -c -q --show-progress -P /etc/v2ray-agent/trojan/ "https://github.com/p4gefau1t/trojan-go/releases/download/${version}/${trojanGoCPUVendor}.zip"
+			wget -c -q --show-progress -P /etc/v2ray-agent/trojan/ "https://github.com/gfw-report/trojan-go/releases/download/${version}/${trojanGoCPUVendor}.zip"
 		else
-			wget -c -P /etc/v2ray-agent/trojan/ "https://github.com/p4gefau1t/trojan-go/releases/download/${version}/${trojanGoCPUVendor}.zip" >/dev/null 2>&1
+			wget -c -P /etc/v2ray-agent/trojan/ "https://github.com/gfw-report/trojan-go/releases/download/${version}/${trojanGoCPUVendor}.zip" >/dev/null 2>&1
 		fi
 		unzip -o /etc/v2ray-agent/trojan/${trojanGoCPUVendor}.zip -d /etc/v2ray-agent/trojan >/dev/null
 		rm -rf /etc/v2ray-agent/trojan/${trojanGoCPUVendor}.zip
@@ -1301,12 +1301,12 @@ updateTrojanGo() {
 		exit 0
 	fi
 	if find /etc/v2ray-agent/trojan/ | grep -q "trojan-go"; then
-		version=$(curl -s https://api.github.com/repos/p4gefau1t/trojan-go/releases | jq -r .[0].tag_name)
+		version=$(curl -s https://api.github.com/repos/gfw-report/trojan-go/releases | jq -r .[0].tag_name)
 		echoContent green " ---> Trojan-Go版本:${version}"
 		if [[ -n $(wget --help | grep show-progress) ]]; then
-			wget -c -q --show-progress -P /etc/v2ray-agent/trojan/ "https://github.com/p4gefau1t/trojan-go/releases/download/${version}/${trojanGoCPUVendor}.zip"
+			wget -c -q --show-progress -P /etc/v2ray-agent/trojan/ "https://github.com/gfw-report/trojan-go/releases/download/${version}/${trojanGoCPUVendor}.zip"
 		else
-			wget -c -P /etc/v2ray-agent/trojan/ "https://github.com/p4gefau1t/trojan-go/releases/download/${version}/${trojanGoCPUVendor}.zip" >/dev/null 2>&1
+			wget -c -P /etc/v2ray-agent/trojan/ "https://github.com/gfw-report/trojan-go/releases/download/${version}/${trojanGoCPUVendor}.zip" >/dev/null 2>&1
 		fi
 		unzip -o /etc/v2ray-agent/trojan/${trojanGoCPUVendor}.zip -d /etc/v2ray-agent/trojan >/dev/null
 		rm -rf /etc/v2ray-agent/trojan/${trojanGoCPUVendor}.zip
@@ -1315,7 +1315,7 @@ updateTrojanGo() {
 	else
 		echoContent green " ---> 当前Trojan-Go版本:$(/etc/v2ray-agent/trojan/trojan-go --version | awk '{print $2}' | head -1)"
 		if [[ -n $(/etc/v2ray-agent/trojan/trojan-go --version) ]]; then
-			version=$(curl -s https://api.github.com/repos/p4gefau1t/trojan-go/releases | jq -r .[0].tag_name)
+			version=$(curl -s https://api.github.com/repos/gfw-report/trojan-go/releases | jq -r .[0].tag_name)
 			if [[ "${version}" == "$(/etc/v2ray-agent/trojan/trojan-go --version | awk '{print $2}' | head -1)" ]]; then
 				read -r -p "当前版本与最新版相同，是否重新安装？[y/n]:" reInstalTrojanGoStatus
 				if [[ "${reInstalTrojanGoStatus}" == "y" ]]; then
