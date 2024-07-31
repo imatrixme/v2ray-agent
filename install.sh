@@ -4089,12 +4089,12 @@ EOF
 
     # trojan
     if echo "${selectCustomInstallType}" | grep -q ",4," || [[ "$1" == "all" ]]; then
-        fallbacksList='{"dest":31296,"xver":1},{"alpn":"h2","dest":31302,"xver":1}'
+        fallbacksList='{"dest":9300,"xver":1},{"alpn":"h2","dest":31302,"xver":1}'
         cat <<EOF >/etc/v2ray-agent/xray/conf/04_trojan_TCP_inbounds.json
 {
 "inbounds":[
 	{
-	  "port": 31296,
+	  "port": 9300,
 	  "listen": "127.0.0.1",
 	  "protocol": "trojan",
 	  "tag":"trojanTCP",
