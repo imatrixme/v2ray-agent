@@ -1650,7 +1650,7 @@ EOF
 
 	if echo "${selectCustomInstallType}" | grep -q 4 || [[ "$1" == "all" ]]; then
 		# 回落trojan-go
-		fallbacksList='{"dest":31296,"xver":0},{"alpn":"h2","dest":31302,"xver":0}'
+		fallbacksList='{"dest":9300,"xver":0},{"alpn":"h2","dest":31302,"xver":0}'
 	fi
 
 	# VLESS_WS_TLS
@@ -2001,7 +2001,7 @@ EOF
 
 	if echo "${selectCustomInstallType}" | grep -q 4 || [[ "$1" == "all" ]]; then
 		# 回落trojan-go
-		fallbacksList='{"dest":31296,"xver":0},{"alpn":"h2","dest":31302,"xver":0}'
+		fallbacksList='{"dest":9300,"xver":0},{"alpn":"h2","dest":31302,"xver":0}'
 	fi
 
 	# VLESS_WS_TLS
